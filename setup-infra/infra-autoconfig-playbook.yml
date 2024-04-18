@@ -1,0 +1,14 @@
+---
+- name: Install RPM packages
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Include group vars
+      include_vars:
+        file: group_vars/all.yml
+
+    - name: Install RPM packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ rpm_packages }}"
