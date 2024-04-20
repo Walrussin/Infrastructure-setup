@@ -4,13 +4,8 @@ provider "aws" {
 
 # Create a new key-pair for logging into the new ec2 instance
 resource "aws_key_pair" "web-server-key" {
-  key_name = "web-server-key"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
-
-# Get Linux AMI ID using SSM Parameter endpoint in us-east-1
-data "aws_ssm_parameter" "webserver-ami" {
-  name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  key_name = "rhel-9-webserver-key"
+  public_key = file("~/.ssh/rhel-9-webserver-key.pub")
 }
 
 # Create VPC in us-east-1
@@ -21,7 +16,6 @@ resource "aws_vpc" "vpc" {
   tags = {
     Name = "terraform-vpc"
   }
-
 }
 
 # Create IGW in us-east-1
@@ -92,6 +86,6 @@ resource "aws_security_group" "sg" {
   }
 }
 
-output "Webserver-Public-IP" {
-  value = aws_instance.webserver.public_ip
+output "Web-server-Public-IP" {
+  value = aws_instance.web-server.public_ip
 }

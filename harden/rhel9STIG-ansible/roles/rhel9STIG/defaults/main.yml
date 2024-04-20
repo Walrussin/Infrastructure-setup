@@ -1,17 +1,7 @@
 # R-257779 RHEL-09-211020
 rhel9STIG_stigrule_257779_Manage: True
 rhel9STIG_stigrule_257779__etc_issue_Dest: /etc/issue
-rhel9STIG_stigrule_257779__etc_issue_Content: 'You are accessing a Proprietary Information System (IS) that is provided for authorized use only.
-
-By using this IS (which includes any device attached to this IS), you consent to the following conditions:
-
--Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.
-
--This IS includes security measures (e.g., authentication and access controls) to protect USG interests -- not for your personal benefit or privacy.
-
--Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.
-
-'
+rhel9STIG_stigrule_257779__etc_issue_Content: 'You are accessing a Proprietary Information System (IS) that is provided for authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any authorized purpose. This IS includes security measures (e.g., authentication and access controls) to protect the interests of the supporting parties -- not for your personal benefit or privacy. Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.'
 # R-257783 RHEL-09-211040
 rhel9STIG_stigrule_257783_Manage: True
 rhel9STIG_stigrule_257783_systemd_journald_enable_Enabled: yes

@@ -2,3 +2,11 @@
 rpm_packages:
   - podman
   - git
+
+users:
+  - name: Jane Doe
+    admin: True
+    setHome: True
+
+service_accounts:
+  - postgres

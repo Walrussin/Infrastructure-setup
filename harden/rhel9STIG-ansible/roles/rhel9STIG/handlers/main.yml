@@ -28,3 +28,4 @@
 - name: do_reboot
   reboot:
     pre_reboot_delay: 60
+  when: ansible_host is not 'localhost'
