@@ -15,7 +15,7 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install podman",
       "sudo mkdir /opt/playbooks",
       "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
-      "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
+      "sudo -u root ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
       "sudo reboot"
     ]
     connection {
@@ -33,14 +33,4 @@ resource "aws_instance" "web-server" {
   tags = {
     Name = "web-server"
   }
-}
-
-resource "aws_route53_record" "subdomain_record" {
-  allow_overwrite = true
-  name            = "walrus.471112982190.realhandsonlabs.net"
-  ttl             = 3600
-  type            = "NS"
-  zone_id         = "Z019039811LSBF8HD8SAV"
-
-  records = ["aws_instance.web-server.public_ip"]
 }

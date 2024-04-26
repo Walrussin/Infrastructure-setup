@@ -89,3 +89,13 @@ resource "aws_security_group" "sg" {
 output "Web-server-Public-IP" {
   value = aws_instance.web-server.public_ip
 }
+
+resource "aws_route53_record" "subdomain_record" {
+  allow_overwrite = true
+  name            = "walrus.471112982190.realhandsonlabs.net"
+  ttl             = 3600
+  type            = "NS"
+  zone_id         = "Z019039811LSBF8HD8SAV"
+
+  records = ["aws_instance.web-server.public_ip"]
+}
