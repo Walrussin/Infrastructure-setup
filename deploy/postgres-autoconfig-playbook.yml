@@ -1,0 +1,21 @@
+---
+- name: Deploy PostgreSQL container
+  hosts: your_hosts
+  become: yes
+  tasks:
+    - name: Install PostgreSQL container if not already present
+      package:
+        name: podman
+        state: present
+
+    - name: Start PostgreSQL container
+      podman_container:
+        name: postgres_container
+        image: docker.io/library/postgres
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_USER: your_username
+          POSTGRES_PASSWORD: your_password
+          POSTGRES_DB: your_database
+        state: started
