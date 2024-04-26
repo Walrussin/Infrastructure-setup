@@ -8,12 +8,9 @@
       include_vars:
         file: group_vars/all.yml
 
-    - name: Run RHEL 9 STIG
-      command: rhel9STIG-ansible/enforce.sh
-      args:
-        creates: rhel9STIG-ansible/indicator_file.txt
-      register: script_result
-      ignore_errors: yes  # Ignore errors to check return code
+    - name: Rhel 9 STIG
+      include_role:
+        name: rhel9STIG
 
     - name: Handle script result
       debug:
