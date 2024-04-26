@@ -12,7 +12,10 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
       "sudo dnf -y install ansible",
       "sudo dnf -y install git",
-      "sudo dnf -y install podman"
+      "sudo dnf -y install podman",
+      "mkdir /opt/playbooks"
+      "git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks"
+      "ansible-playbook /opt/playbooks/Infrastructure-setup/harden/infra-autoconfig-playbook.yml"
     ]
     connection {
       type        = "ssh"

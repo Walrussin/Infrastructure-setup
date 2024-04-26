@@ -3,6 +3,12 @@ Setup the infrastructure for a simple web server. Create Resources, Harden, Depl
 
 ### Provision
 
+`aws configure`
+
+Apply you API key and password.
+
+`terraform init`
+
 `terraform plan`
 
 `terraform apply --auto-approve`
