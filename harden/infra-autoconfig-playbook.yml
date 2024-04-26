@@ -12,8 +12,3 @@
         name: "{{ item }}"
         state: present
       loop: "{{ rpm_packages }}"
-
-    - name: Create Users
-      user:
-        name: "{{ item.name }}"
-        shell: /bin/bash

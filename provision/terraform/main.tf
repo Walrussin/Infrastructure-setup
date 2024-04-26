@@ -10,8 +10,9 @@ resource "aws_instance" "web-server" {
     inline = [
       "sudo dnf -y update && sudo dnf -y upgrade",
       "sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
-      "sudo dnf -y install ansible"
-      "sudo dnf -y install git"
+      "sudo dnf -y install ansible",
+      "sudo dnf -y install git",
+      "sudo dnf -y install podman"
     ]
     connection {
       type        = "ssh"
@@ -23,4 +24,14 @@ resource "aws_instance" "web-server" {
   tags = {
     Name = "web-server"
   }
+}
+
+resource "aws_route53_record" "nameservers" {
+  allow_overwrite = true
+  name            = "example.com"
+  ttl             = 3600
+  type            = "NS"
+  zone_id         = aws_route53_zone.example.zone_id
+
+  records = aws_route53_zone.example.name_servers
 }
