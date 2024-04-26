@@ -13,9 +13,10 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install ansible",
       "sudo dnf -y install git",
       "sudo dnf -y install podman",
-      "mkdir /opt/playbooks"
-      "git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks"
-      "ansible-playbook /opt/playbooks/Infrastructure-setup/harden/infra-autoconfig-playbook.yml"
+      "mkdir /opt/playbooks",
+      "git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
+      "ansible-playbook /opt/playbooks/Infrastructure-setup/harden/infra-autoconfig-playbook.yml",
+      "reboot"
     ]
     connection {
       type        = "ssh"
