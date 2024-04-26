@@ -13,10 +13,10 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install ansible",
       "sudo dnf -y install git",
       "sudo dnf -y install podman",
-      "mkdir /opt/playbooks",
-      "git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
-      "ansible-playbook /opt/playbooks/Infrastructure-setup/harden/infra-autoconfig-playbook.yml",
-      "reboot"
+      "sudo mkdir /opt/playbooks",
+      "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
+      "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
+      "sudo reboot"
     ]
     connection {
       type        = "ssh"
@@ -25,17 +25,22 @@ resource "aws_instance" "web-server" {
       host        = self.public_ip
     }
   }
+  timeouts {
+    create = "60m"
+    update = "60m"  
+    delete = "60m"  
+  }
   tags = {
     Name = "web-server"
   }
 }
 
-resource "aws_route53_record" "nameservers" {
+resource "aws_route53_record" "subdomain_record" {
   allow_overwrite = true
-  name            = "example.com"
+  name            = "walrus.471112982190.realhandsonlabs.net"
   ttl             = 3600
   type            = "NS"
-  zone_id         = aws_route53_zone.example.zone_id
+  zone_id         = "Z019039811LSBF8HD8SAV"
 
-  records = aws_route53_zone.example.name_servers
+  records = ["aws_instance.web-server.public_ip"]
 }
