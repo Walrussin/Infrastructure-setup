@@ -11,8 +11,3 @@
     - name: Rhel 9 STIG
       include_role:
         name: rhel9STIG
-
-    - name: Handle script result
-      debug:
-        msg: "Script executed successfully"
-      when: script_result.rc == 0  # Check if return code is 0
