@@ -1,8 +1,3 @@
-
-rpm_packages:
-  - podman
-  - git
-
 users:
   - name: Jane Doe
     admin: True

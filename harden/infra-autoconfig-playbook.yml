@@ -11,3 +11,17 @@
     - name: Rhel 9 STIG
       include_role:
         name: rhel9STIG
+
+    - name: Update sshd_config to allow password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication yes'
+        state: present
+      notify: Restart SSH
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: sshd
+        state: restarted

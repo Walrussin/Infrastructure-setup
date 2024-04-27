@@ -11,7 +11,9 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y update && sudo dnf -y upgrade",
       "sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
       "sudo dnf -y install ansible",
-      "sudo dnf -y install git"
+      "sudo dnf -y install git",
+      "sudo mkdir /opt/playbooks",
+      "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks"
     ]
     connection {
       type        = "ssh"

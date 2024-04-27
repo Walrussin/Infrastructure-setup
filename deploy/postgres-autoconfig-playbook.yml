@@ -9,7 +9,7 @@
         state: present
 
     - name: Install containers.podman collection
-      community.general.collection:
+      community.general.ansible_galaxy_install:
         name: containers.podman
         type: collection
 

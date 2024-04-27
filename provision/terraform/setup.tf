@@ -79,14 +79,14 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
    ingress {
-    description = "allow traffic from TCP/443 HTTPS"
+    description = "allow traffic from TCP/8000 TESTING"
     from_port   = 8000
     to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
    ingress {
-    description = "allow traffic from TCP/443 HTTPS"
+    description = "allow traffic from TCP/8900 Vault GUI"
     from_port   = 8900
     to_port     = 8900
     protocol    = "tcp"
@@ -106,12 +106,12 @@ output "Web-server-Public-IP" {
 
 resource "aws_route53_record" "instance_record" {
   allow_overwrite = true
-  name            = "walrus.730335175146.realhandsonlabs.net"
+  name            = "walrus.767398010078.realhandsonlabs.net"
   ttl             = 3600
   type            = "A"
-  zone_id         = "Z07066512QNRIUUYSD6HY"
+  zone_id         = "Z09821342XACXVOGWZEPD"
 
-  records = ["aws_instance.web-server.public_ip"]
+  records = [aws_instance.web-server.public_ip]
 
   depends_on = [aws_instance.web-server]
 }
