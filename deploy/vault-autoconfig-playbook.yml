@@ -1,6 +1,6 @@
 ---
 - name: Deploy Vault
-  hosts: your_hosts
+  hosts: localhost
   become: yes
   tasks:
     - name: Install yum-utils
@@ -9,13 +9,7 @@
         state: latest
 
     - name: Add official HashiCorp Linux repository.
-      dnf_repository:
-        name: hashicorp
-        description: Your repository description
-        baseurl: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-        gpgcheck: yes
-        enabled: yes
-        state: present
+      command: sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 
     - name: Install Vault
       dnf:

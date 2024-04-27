@@ -78,6 +78,20 @@ resource "aws_security_group" "sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+   ingress {
+    description = "allow traffic from TCP/443 HTTPS"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   ingress {
+    description = "allow traffic from TCP/443 HTTPS"
+    from_port   = 8900
+    to_port     = 8900
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -90,12 +104,14 @@ output "Web-server-Public-IP" {
   value = aws_instance.web-server.public_ip
 }
 
-resource "aws_route53_record" "subdomain_record" {
+resource "aws_route53_record" "instance_record" {
   allow_overwrite = true
-  name            = "walrus.471112982190.realhandsonlabs.net"
+  name            = "walrus.730335175146.realhandsonlabs.net"
   ttl             = 3600
-  type            = "NS"
-  zone_id         = "Z019039811LSBF8HD8SAV"
+  type            = "A"
+  zone_id         = "Z07066512QNRIUUYSD6HY"
 
   records = ["aws_instance.web-server.public_ip"]
+
+  depends_on = [aws_instance.web-server]
 }
