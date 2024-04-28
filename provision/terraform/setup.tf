@@ -106,10 +106,10 @@ output "Web-server-Public-IP" {
 
 resource "aws_route53_record" "instance_record" {
   allow_overwrite = true
-  name            = "walrus.590184073929.realhandsonlabs.net"
+  name            = "walrus.851725578394.realhandsonlabs.net"
   ttl             = 3600
   type            = "A"
-  zone_id         = "Z01903345I260KRQZ2ZS"
+  zone_id         = "Z0982124PSMGFY9I7JFA"
 
   records = [aws_instance.web-server.public_ip]
 

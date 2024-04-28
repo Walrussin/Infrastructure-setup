@@ -24,7 +24,7 @@
       content-type: "application/json"
     body: '{"secret_shares": 5, "secret_threshold": 3}'
     validate_certs: no
-  register: vault_init_res | from_json
+  register: vault_init_res
 
 - name: Print output
   debug:
