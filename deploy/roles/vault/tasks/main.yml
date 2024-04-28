@@ -184,7 +184,7 @@
 
 - name: Create a secret for postgres
   uri:
-    url: "https://127.0.0.1:8200/v1/secret/data/secret/postgres"
+    url: "https://127.0.0.1:8200/v1/secret/data/postgres"
     method: GET
     headers:
       X-Vault-Token: "{{ VAULT_TOKEN }}"
