@@ -1,0 +1,13 @@
+---
+- name: Deploy PostgreSQL container
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Deploy Vault
+      include_role: vault
+      
+    - name: Deploy postgres
+      include_role: postgres
+
+    

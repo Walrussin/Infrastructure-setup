@@ -1,0 +1,62 @@
+- name: Install yum-utils
+  dnf:
+    name: yum-utils
+    state: latest
+
+- name: Add official HashiCorp Linux repository.
+  command: sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+
+- name: Install Vault
+  dnf:
+    name: vault
+    state: latest
+
+- name: Start Vault
+  systemd:
+    name: vault
+    state: started
+
+- name: initialize Vault with the API
+  uri:
+    url: "https://127.0.0.1:8200/v1/sys/init"
+    method: POST
+    headers:
+      content-type: "application/json"
+    body: '{"secret_shares": 5, "secret_threshold": 3}'
+    validate_certs: no
+  register: vault_init_res | from_json
+
+- name: Print output
+  debug:
+    msg: "{{ vault_init_res }}"
+
+- name: Set environment variable
+  shell: "echo $VAULT_TOKEN"
+  environment:
+    VAULT_TOKEN: "{{ vault_init_res.json.root_token }}"
+
+- name: Create directory
+  file:
+    path: "/root/vault/keys/"
+    state: directory
+    mode: "0750"
+
+- name: Add keys to file
+  copy:
+    content: "{{ vault_init_res }}"
+    dest: /root/vault/keys/init.json
+
+- name: Create Vault Role
+  uri:
+    url: "https://127.0.0.1:8200/v1/sys/auth/approle"
+    method: POST
+    headers:
+      X-Vault-Token: "{{ lookup('env', 'VAULT_TOKEN') }}"
+      content-type: "application/json"
+    body: '{"type" : "approle"}'
+    validate_certs: no
+  register: vault_res
+
+- name: Print output
+  debug:
+    msg: vault_res 

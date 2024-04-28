@@ -87,8 +87,8 @@ resource "aws_security_group" "sg" {
   }
    ingress {
     description = "allow traffic from TCP/8900 Vault GUI"
-    from_port   = 8900
-    to_port     = 8900
+    from_port   = 8200
+    to_port     = 8200
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
