@@ -15,6 +15,15 @@ resource "aws_instance" "web-server" {
       "sudo mkdir /opt/playbooks",
       "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
       "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
+      "<<-EOT
+      ssh ${local.ssh_args} ec2-user@${self.ipv4_address} '(sleep 2; sudo reboot)&'; sleep 3
+      until ssh ${local.ssh_args} -o ConnectTimeout=2 root@${self.ipv4_address} true 2> /dev/null
+      do
+        echo "Waiting for node to reboot and become available..."
+        sleep 3
+      done
+    EOT"
+
     ]
     connection {
       type        = "ssh"
