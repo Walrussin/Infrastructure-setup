@@ -13,7 +13,8 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install ansible",
       "sudo dnf -y install git",
       "sudo mkdir /opt/playbooks",
-      "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks"
+      "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
+      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml",
     ]
     connection {
       type        = "ssh"
