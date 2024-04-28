@@ -14,7 +14,7 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install git",
       "sudo mkdir /opt/playbooks",
       "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
-      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml",
+      "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
     ]
     connection {
       type        = "ssh"
@@ -31,4 +31,20 @@ resource "aws_instance" "web-server" {
   tags = {
     Name = "web-server"
   }
+}
+
+resource "null_resource" "deploy" {
+  provisioner "remote-exec" {
+    inline = [
+      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml",
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("~/.ssh/rhel-9-webserver-key")
+      host        = aws_instance.web-server.public_ip
+    }
+  }
+
+  depends_on = [aws_instance.web-server]
 }
