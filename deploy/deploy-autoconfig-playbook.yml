@@ -6,9 +6,11 @@
 
   tasks:
     - name: Deploy Vault
-      include_role: vault
+      include_role: 
+        name: vault
       
     - name: Deploy postgres
-      include_role: postgres
+      include_role: 
+        name: postgres
 
     
