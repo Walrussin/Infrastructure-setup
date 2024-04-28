@@ -26,6 +26,5 @@
 - name: with_faillock_enable
   command: authselect enable-feature with-faillock
 - name: do_reboot
-  reboot:
-    pre_reboot_delay: 60
-  when: ansible_host is not 'localhost'
+  debug:
+    msg: "INFO: Running on localhost manual reboot will need to be applied."
