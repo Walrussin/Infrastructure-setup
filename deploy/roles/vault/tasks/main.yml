@@ -60,7 +60,7 @@
 
 - name: Check unseal status
   uri:
-    url: "http://127.0.0.1:8200/v1/sys/init"
+    url: "https://127.0.0.1:8200/v1/sys/init"
     validate_certs: no
   register: vault_unseal_status_res
 
