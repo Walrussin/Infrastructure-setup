@@ -1,7 +1,8 @@
 ---
-- name: Deploy PostgreSQL container
+- name: Deploy all supplementary services
   hosts: localhost
   become: yes
+  become_user: root
 
   tasks:
     - name: Deploy Vault
