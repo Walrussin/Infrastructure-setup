@@ -13,7 +13,7 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y install ansible",
       "sudo dnf -y install git",
       "sudo mkdir /opt/playbooks",
-      "sudo git clone https://github.com/WaltonMcD/Infrastructure-setup.git /opt/playbooks",
+      "sudo git clone https://github.com/Walrussin/Infrastructure-setup.git /opt/playbooks",
       "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
       "sudo reboot"
 
@@ -35,6 +35,11 @@ resource "aws_instance" "web-server" {
   }
 }
 
+resource "time_sleep" "wait_30_seconds" {
+  create_duration = "30s"
+  depends_on = [aws_instance.web-server]
+}
+
 resource "null_resource" "deploy" {
   provisioner "remote-exec" {
     inline = [
@@ -48,5 +53,5 @@ resource "null_resource" "deploy" {
     }
   }
 
-  depends_on = [aws_instance.web-server]
+  depends_on = [time_sleep.wait_30_seconds]
 }
