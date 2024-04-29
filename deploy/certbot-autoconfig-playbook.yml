@@ -3,6 +3,10 @@
   become: true
 
   tasks:
+    - name: Include group vars
+      include_vars:
+        file: group_vars/all.yml
+        
     - name: Install snapd if not already present
       package:
         name: snapd
