@@ -48,8 +48,9 @@
 - name: Request Let's Encrypt certificate
   community.general.certbot:
     domains:
-      - {{ acme_domain }}
-    email: {{ acme_domain }}
+      - "{{ acme_domain }}"
+      - "www.{{ acme_domain }}"
+    email: "{{ acme_email }}"
     rsa_key_size: 4096
     agree_tos: true
   register: cert_result
