@@ -28,9 +28,9 @@
     classic: true
     state: present
 
-- name: Install pip3
+- name: Install pip
   dnf:
-    name: pip3
+    name: pip
     state: present
 
 - name: Install certbot python package
