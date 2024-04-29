@@ -38,7 +38,7 @@ resource "aws_instance" "web-server" {
 resource "null_resource" "deploy" {
   provisioner "remote-exec" {
     inline = [
-      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml",
+      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml -e "aws_access_key_id=var.aws_access_key_id aws_secret_access_key=var.aws_secret_access_key"",
     ]
     connection {
       type        = "ssh"
