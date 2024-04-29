@@ -1,6 +1,7 @@
 - name: Install podman if not already present
   package:
     name: podman
+    enabled: true
     state: present
 
 - name: Install containers.podman collection
