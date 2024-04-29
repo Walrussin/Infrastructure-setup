@@ -1,4 +1,4 @@
-- name: Let's encrypt Ansible ACME example
+- name: Let's encrypt Certbot
   hosts: localhost
   become: true
 
@@ -6,14 +6,14 @@
     - name: Include group vars
       include_vars:
         file: group_vars/all.yml
-        
+
     - name: Install snapd if not already present
       package:
         name: snapd
         enabled: true
         state: present
 
-    - name: Install containers.podman collection
+    - name: Install snap collection
       community.general.ansible_galaxy_install:
         name: snap
         type: collection
@@ -32,7 +32,7 @@
         classic: true
         state: present
 
-    - name: Snapd symoblic link
+    - name: Certbot symoblic link
       file:
         src: /snap/bin/certbot
         dest: /usr/bin/certbot
