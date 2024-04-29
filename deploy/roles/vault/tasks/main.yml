@@ -11,6 +11,24 @@
     name: vault
     state: latest
 
+- name: Copy certs to vault directory
+  copy:
+    content: "/etc/letsencrypt/live/{{ acme_domain }}/cert.pem"
+    dest: /opt/vault/tls/tls.crt
+    owner: vault
+    group: vault
+    force: True
+    mode: 600
+
+- name: Copy certs to vault directory
+  copy:
+    content: "/etc/letsencrypt/live/{{ acme_domain }}/privkey.pem"
+    dest: /opt/vault/tls/tls.key
+    owner: vault
+    group: vault
+    force: True
+    mode: 600   
+
 - name: Start Vault
   systemd:
     name: vault
