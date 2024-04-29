@@ -15,4 +15,8 @@ Apply you API key and password.
 
 ### Harden
 
-`ansible-playbook -v -b -i /dev/null --check site.yml`
+`ansible-playbook infra-autoconfig-playbook.yml`
+
+### Deploy
+
+`ansible-playbook deploy-autoconfig-playbook.yml -e "aws_access_key_id=<YOUR ACCESS KEY ID> aws_secret_access_key=<YOUR SECRET ACCESS KEY>"`
