@@ -20,7 +20,7 @@
         state: present
       notify: Restart SSH
 
-    - name: Add iptables rule to forward traffic
+    - name: Add iptables rule to forward traffic (Vault)
       iptables:
         chain: PREROUTING
         table: nat
@@ -28,6 +28,15 @@
         dport: 8200
         jump: REDIRECT
         to_ports: 8200
+
+    - name: Add iptables rule to forward traffic (Application)
+      iptables:
+        chain: PREROUTING
+        table: nat
+        protocol: tcp
+        dport: 443
+        jump: REDIRECT
+        to_ports: 443
 
   handlers:
     - name: Restart SSH
