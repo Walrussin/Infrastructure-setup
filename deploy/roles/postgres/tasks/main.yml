@@ -19,3 +19,10 @@
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "postgres"
     state: started
+
+- name: Ensure a job that runs weekly to backup Postgres. Creates an entry like "0 1 * * *"
+  ansible.builtin.cron:
+    name: "backup postgres"
+    minute: "0"
+    hour: "1"
+    job: "docker exec -i postgres /usr/bin/pg_dump -U postgres postgres | gzip -9 > $(date +'%Y-%m-%d')_postgres-backup.sql.gz l"

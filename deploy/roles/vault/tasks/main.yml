@@ -14,6 +14,7 @@
 - name: Start Vault
   systemd:
     name: vault
+    enabled: True
     state: started
 
 - name: initialize Vault with the API
@@ -169,6 +170,11 @@
     VAULT_TOKEN: "{{ vault_token_res.json.auth.client_token }}"
   environment:
     VAULT_TOKEN: "{{ vault_token_res.json.auth.client_token }}"
+
+- name: Save init to file
+  copy:
+    content: "{{ vault_token_res.json.auth.client_token }}"
+    dest: /root/vault/keys/clientToken
 
 - name: Create a secret for postgres
   uri:
