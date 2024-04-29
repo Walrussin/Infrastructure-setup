@@ -5,6 +5,10 @@
   become_user: root
 
   tasks:
+    - name: Include group vars
+      include_vars:
+        file: group_vars/all.yml
+
     - name: Generate Certs
       include_role: 
         name: certbot
