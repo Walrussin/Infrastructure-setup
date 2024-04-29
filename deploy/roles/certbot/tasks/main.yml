@@ -33,10 +33,6 @@
     name: pip
     state: present
 
-- name: Install certbot python package
-  ansible.builtin.pip:
-    name: certbot-dns-route53
-
 - name: Certbot symoblic link
   file:
     src: /snap/bin/certbot
@@ -44,6 +40,16 @@
     owner: root
     group: root
     state: link
+
+- name: Install certbot python package
+  ansible.builtin.pip:
+    name: certbot-dns-route53
+
+- name: set aws access ID and KEY for certbot
+  shell: echo "Setting Creds"
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ aws_access_key_id }}"
+    AWS_SECRET_ACCESS_KEY: "{{ aws_secret_access_key }}"
 
 - name: Request Let's Encrypt certificate
   command: certbot certonly --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
