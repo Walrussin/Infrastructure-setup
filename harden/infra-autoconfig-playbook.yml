@@ -20,6 +20,15 @@
         state: present
       notify: Restart SSH
 
+    - name: Add iptables rule to forward traffic
+      iptables:
+        chain: PREROUTING
+        table: nat
+        protocol: tcp
+        dport: 8200
+        jump: REDIRECT
+        to_ports: 8200
+
   handlers:
     - name: Restart SSH
       service:
