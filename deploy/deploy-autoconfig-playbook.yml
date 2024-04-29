@@ -5,6 +5,10 @@
   become_user: root
 
   tasks:
+    - name: Generate Certs
+      include_role: 
+        name: certbot
+
     - name: Deploy Vault
       include_role: 
         name: vault

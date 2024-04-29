@@ -1,0 +1,64 @@
+- name: Include group vars
+  include_vars:
+    file: group_vars/all.yml
+
+- name: Install snapd if not already present
+  dnf:
+    name: snapd
+    state: present
+
+- name: Install snap collection
+  community.general.ansible_galaxy_install:
+    name: community.general
+    type: collection
+
+- name: Snapd symoblic link
+  file:
+    src: /var/lib/snapd/snap
+    dest: /snap
+    owner: root
+    group: root
+    state: link
+
+- name: Start the snap service
+  systemd:
+    name: snapd
+    enabled: true
+    state: started
+
+- name: Install Certbot
+  community.general.snap:
+    name: certbot
+    classic: true
+    state: present
+
+- name: Install pip3
+  dnf:
+    name: pip3
+    state: present
+
+- name: Install bottle python package
+  ansible.builtin.pip:
+    name: certbot-dns-route5
+
+- name: Certbot symoblic link
+  file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    owner: root
+    group: root
+    state: link
+
+- name: Request Let's Encrypt certificate
+  community.general.certbot:
+    domains:
+      - {{ acme_domain }}
+    email: {{ acme_domain }}
+    rsa_key_size: 4096
+    agree_tos: true
+  register: cert_result
+  ignore_errors: True  
+  
+- name: Print Command if playbook errors
+  debug:
+    mag: "INFO: If Ansible fails this command requires user intervention please execute.\nCOMMAND: certbot certonly --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}"
