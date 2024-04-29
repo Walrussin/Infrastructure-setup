@@ -33,9 +33,9 @@
     name: pip3
     state: present
 
-- name: Install bottle python package
+- name: Install certbot python package
   ansible.builtin.pip:
-    name: certbot-dns-route5
+    name: certbot-dns-route53
 
 - name: Certbot symoblic link
   file:
@@ -46,16 +46,9 @@
     state: link
 
 - name: Request Let's Encrypt certificate
-  community.general.certbot:
-    domains:
-      - "{{ acme_domain }}"
-      - "www.{{ acme_domain }}"
-    email: "{{ acme_email }}"
-    rsa_key_size: 4096
-    agree_tos: true
-  register: cert_result
-  ignore_errors: True  
-  
-- name: Print Command if playbook errors
+  command: certbot certonly --agree-tos --email {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
+  register: certbot_output
+
+- name: Print certbot output
   debug:
-    mag: "INFO: If Ansible fails this command requires user intervention please execute.\nCOMMAND: certbot certonly --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}"
+    mag: "{{ certbot_output }}"
