@@ -46,7 +46,7 @@
     state: link
 
 - name: Request Let's Encrypt certificate
-  command: certbot certonly --agree-tos --email {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
+  command: certbot certonly --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
   register: certbot_output
 
 - name: Print certbot output
