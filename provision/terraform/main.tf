@@ -25,6 +25,7 @@ resource "aws_instance" "web-server" {
   }
 }
 
+# Harden the webserver
 resource "null_resource" "harden" {
   provisioner "remote-exec" {
     inline = [
@@ -43,11 +44,13 @@ resource "null_resource" "harden" {
   depends_on = [aws_instance.web-server]
 }
 
+# Wait for reboot
 resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
   depends_on = [null_resource.harden]
 }
 
+# Deploy all resources needed for application
 resource "null_resource" "deploy" {
   provisioner "remote-exec" {
     inline = [
