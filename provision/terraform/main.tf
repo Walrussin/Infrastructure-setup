@@ -11,12 +11,7 @@ resource "aws_instance" "web-server" {
       "sudo dnf -y update && sudo dnf -y upgrade",
       "sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm",
       "sudo dnf -y install ansible",
-      "sudo dnf -y install git",
-      "sudo mkdir /opt/playbooks",
-      "sudo git clone https://github.com/Walrussin/Infrastructure-setup.git /opt/playbooks",
-      "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
-      "sudo reboot"
-
+      "sudo dnf -y install git"
     ]
     connection {
       type        = "ssh"
@@ -25,19 +20,32 @@ resource "aws_instance" "web-server" {
       host        = self.public_ip
     }
   }
-  timeouts {
-    create = "60m"
-    update = "60m"  
-    delete = "60m"  
-  }
   tags = {
     Name = "web-server"
   }
 }
 
+resource "null_resource" "harden" {
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir /opt/playbooks",
+      "sudo git clone https://github.com/Walrussin/Infrastructure-setup.git /opt/playbooks",
+      "sudo ansible-playbook /opt/playbooks/harden/infra-autoconfig-playbook.yml",
+      "sudo reboot"
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("~/.ssh/rhel-9-webserver-key")
+      host        = aws_instance.web-server.public_ip
+    }
+  }
+  depends_on = [aws_instance.web-server]
+}
+
 resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
-  depends_on = [aws_instance.web-server]
+  depends_on = [null_resource.harden]
 }
 
 resource "null_resource" "deploy" {
@@ -52,6 +60,5 @@ resource "null_resource" "deploy" {
       host        = aws_instance.web-server.public_ip
     }
   }
-
   depends_on = [time_sleep.wait_30_seconds]
 }
