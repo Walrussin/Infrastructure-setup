@@ -41,9 +41,11 @@
     group: root
     state: link
 
-- name: Install certbot python package (PIP)
-  ansible.builtin.pip:
+- name: Install Certbot
+  community.general.snap:
     name: certbot-dns-route53
+    classic: true
+    state: present
 
 - name: Request Let's Encrypt certificate
   command: certbot certonly --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
