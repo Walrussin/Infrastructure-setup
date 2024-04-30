@@ -46,11 +46,10 @@
   community.general.snap:
     name: certbot-dns-route53
     classic: true
-    options: trust-plugin-with-root=ok
     state: present
 
 - name: Request Let's Encrypt certificate
-  command: certbot certonly --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
+  command: certbot certonly --non-interactive --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}
   register: certbot_output
   environment:
     AWS_ACCESS_KEY_ID: "{{ aws_access_key_id }}"

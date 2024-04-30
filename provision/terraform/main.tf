@@ -54,7 +54,7 @@ resource "time_sleep" "wait_30_seconds" {
 resource "null_resource" "deploy" {
   provisioner "remote-exec" {
     inline = [
-      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml -e aws_access_key_id=var.aws_access_key_id -e aws_secret_access_key=var.aws_secret_access_key",
+      "sudo ansible-playbook /opt/playbooks/deploy/deploy-autoconfig-playbook.yml -e aws_access_key_id=${var.aws_access_key_id} -e aws_secret_access_key=${var.aws_secret_access_key} -e acme_domain=${var.route53_zone}",
     ]
     connection {
       type        = "ssh"
