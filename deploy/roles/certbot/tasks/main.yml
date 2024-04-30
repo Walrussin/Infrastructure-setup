@@ -26,7 +26,7 @@
   community.general.snap:
     name: certbot
     classic: true
-    set_options: trust-plugin-with-root=ok
+    options: trust-plugin-with-root=ok
     state: present
 
 - name: Install pip
@@ -46,6 +46,7 @@
   community.general.snap:
     name: certbot-dns-route53
     classic: true
+    options: trust-plugin-with-root=ok
     state: present
 
 - name: Request Let's Encrypt certificate
