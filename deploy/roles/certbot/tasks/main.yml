@@ -26,6 +26,7 @@
   community.general.snap:
     name: certbot
     classic: true
+    set_options: trust-plugin-with-root=ok
     state: present
 
 - name: Install pip
@@ -41,7 +42,7 @@
     group: root
     state: link
 
-- name: Install Certbot
+- name: Install Certbot Route53 DNS plugin
   community.general.snap:
     name: certbot-dns-route53
     classic: true
