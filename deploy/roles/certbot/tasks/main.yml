@@ -57,4 +57,13 @@
 
 - name: Print certbot output
   debug:
-    mag: "{{ certbot_output }}"
+    msg: "{{ certbot_output }}"
+
+- name: Renew Certificate Every 30 Days. Creates an entry like "0 0 1 * *"
+  ansible.builtin.cron:
+    name: "backup postgres"
+    minute: "0"
+    hour: "1"
+    day: "1"
+    month: "*"
+    job: "certbot renew --non-interactive --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}"

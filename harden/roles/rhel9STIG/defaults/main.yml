@@ -309,14 +309,14 @@ rhel9STIG_stigrule_257934_Manage: True
 rhel9STIG_stigrule_257934__etc_shadow_mode_Dest: /etc/shadow
 rhel9STIG_stigrule_257934__etc_shadow_mode_Mode: '0000'
 # R-257935 RHEL-09-251010
-rhel9STIG_stigrule_257935_Manage: True
+rhel9STIG_stigrule_257935_Manage: False
 rhel9STIG_stigrule_257935_firewalld_State: installed
 # R-257936 RHEL-09-251015
-rhel9STIG_stigrule_257936_Manage: True
+rhel9STIG_stigrule_257936_Manage: False
 rhel9STIG_stigrule_257936_firewalld_enable_Enabled: yes
 rhel9STIG_stigrule_257936_firewalld_start_State: started
 # R-257939 RHEL-09-251030
-rhel9STIG_stigrule_257939_Manage: True
+rhel9STIG_stigrule_257939_Manage: False
 rhel9STIG_stigrule_257939__etc_firewalld_firewalld_conf_Line: 'FirewallBackend=nftables'
 # R-257942 RHEL-09-251045
 rhel9STIG_stigrule_257942_Manage: True
