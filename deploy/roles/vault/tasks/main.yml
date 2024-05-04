@@ -11,23 +11,21 @@
     name: vault
     state: latest
 
-- name: Copy certs to vault directory
-  file:
+- name: Symlink certs to vault directory
+  copy:
     src: "/etc/letsencrypt/live/{{ acme_domain }}/cert.pem"
     dest: /opt/vault/tls/tls.crt
     owner: vault
     group: vault
     force: True
-    state: link
 
-- name: Copy certs to vault directory
+- name: Symlink certs to vault directory
   copy:
     src: "/etc/letsencrypt/live/{{ acme_domain }}/privkey.pem"
     dest: /opt/vault/tls/tls.key
     owner: vault
     group: vault
-    force: True
-    state: link   
+    force: True  
 
 - name: Start Vault
   systemd:
@@ -107,7 +105,7 @@
     headers:
       X-Vault-Token: "{{ VAULT_TOKEN }}"
       content-type: "application/json"
-    body: '{"policy":":\npath \"secret/data/*\" {\n  capabilities = [\"create\", \"update\", \"read\", \"list\""]\n}"}'
+    body: '"policy": "path \"secret/data/*\" {\n  capabilities = [\"create\", \"update\", \"read\", \"list\"]\n}"'
     body_format: json
     validate_certs: no
     status_code: 204
