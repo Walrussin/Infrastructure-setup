@@ -1,3 +1,6 @@
+- name: Update CA trust
+  command: update-ca-trust extract
+
 - name: Install snapd if not already present
   dnf:
     name: snapd
