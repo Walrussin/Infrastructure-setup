@@ -194,6 +194,10 @@
     content: "{{ vault_token_res.json.auth.client_token }}"
     dest: /root/vault/keys/clientToken
 
+- name: Generate random password
+  command: tr -dc 'A-Za-z0-9!#$%&*+?@^' </dev/urandom | head -c 16; echo
+  register: random_password
+
 - name: Create a secret for postgres
   uri:
     url: "https://127.0.0.1:8200/v1/secret/data/postgres"
@@ -201,18 +205,8 @@
     headers:
       X-Vault-Token: "{{ VAULT_TOKEN }}"
       content-type: "application/json"
-    body: '{ "data": {"password": "postgres"} }'
+    body: '{ "data": {"password": "{{ random_password }}"} }'
     body_format: json
     validate_certs: no
   register: vault_postgres_secret_res
-
-- name: Create a secret for postgres
-  uri:
-    url: "https://127.0.0.1:8200/v1/secret/data/postgres"
-    method: GET
-    headers:
-      X-Vault-Token: "{{ VAULT_TOKEN }}"
-      content-type: "application/json"
-    validate_certs: no
-  register: vault_postgres_secret_res_pass
 

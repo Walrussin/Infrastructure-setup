@@ -8,15 +8,31 @@
     name: containers.podman
     type: collection
 
+- name: Source Vault Token
+  set_fact:
+    VAULT_TOKEN: "{{ lookup('ansible.builtin.file', '/root/vault/keys/clientToken') }}"
+
+- name: Create a secret for postgres
+  uri:
+    url: "https://127.0.0.1:8200/v1/secret/data/postgres"
+    method: GET
+    headers:
+      X-Vault-Token: "{{ VAULT_TOKEN }}"
+      content-type: "application/json"
+    validate_certs: no
+  register: vault_postgres_secret_res
+
 - name: Start PostgreSQL container
   containers.podman.podman_container:
     name: postgres
     image: docker.io/library/postgres
     ports:
       - "5432:5432"
+    volumes:
+      - "/usr/bin/pg_dump:/opt/postgres/backup/"
     env:
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_PASSWORD: "{{ vault_postgres_secret_res.data.data.password }}"
       POSTGRES_DB: "postgres"
     state: started
 
@@ -25,4 +41,4 @@
     name: "backup postgres"
     minute: "0"
     hour: "1"
-    job: "docker exec -i postgres /usr/bin/pg_dump -U postgres postgres | gzip -9 > $(date +'%Y-%m-%d')_postgres-backup.sql.gz l"
+    job: "podman exec -i postgres /usr/bin/pg_dump -U postgres postgres | gzip -9 > $(date +'%Y-%m-%d')_postgres-backup.sql.gz"

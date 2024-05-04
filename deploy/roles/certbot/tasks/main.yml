@@ -70,3 +70,14 @@
     day: "1"
     month: "*"
     job: "certbot renew --non-interactive --agree-tos -m {{ acme_email }} --dns-route53 -d {{ acme_domain }} -d www.{{ acme_domain }}"
+
+- name: Add lets encrypt cert to trust store 
+  copy:
+    src: "/etc/letsencrypt/live/{{ acme_domain }}/cert.pem"
+    dest: "/etc/pki/ca-trust/source/anchors/letencryptCert.pem"
+    owner: root
+    group: root
+    force: True
+
+- name: Update CA trust
+  command: update-ca-trust extract 
