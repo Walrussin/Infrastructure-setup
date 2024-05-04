@@ -20,24 +20,6 @@
         state: present
       notify: Restart SSH
 
-    - name: Add iptables rule to forward traffic on all defined ports
-      block:
-        - name: Allow inbound traffic on all defined ports
-          iptables:
-            chain: INPUT
-            protocol: tcp
-            destination_port: "{{ item }}"
-            jump: ACCEPT
-          loop: "{{ input_ports }}"
-
-        - name: Allow outbound traffic on all defined ports
-          iptables:
-            chain: OUTPUT
-            protocol: tcp
-            destination_port: "{{ item }}"
-            jump: ACCEPT
-          loop: "{{ output_ports }}"
-      
   handlers:
     - name: Restart SSH
       service:
