@@ -1,9 +1,1 @@
 ---
-# Ports
-output_ports:
-  - 8200
-  - 443
-
-input_ports:
-  - 8200
-  - 443
